@@ -41,7 +41,7 @@ public class HillClimbing {
                     maxChildCost = childCost;
                 }
             }
-        } while(cost < maxChildCost);
+        } while(cost < maxChildCost); // may diverge
 
         return currentPoint;
     }
@@ -68,10 +68,10 @@ public class HillClimbing {
         } else {
             double val = coordinates[level];
             for(int i = -1; i<=1; i++) {
-                coordinates[level] += i * stepSize;
+                coordinates[level] = val + i * stepSize;
                 fillChildrenList(childrenList, coordinates, level+1, stepSize, changed | (i != 0));
-                coordinates[level] = val;
             }
+            coordinates[level] = val;
         }
     }
 
