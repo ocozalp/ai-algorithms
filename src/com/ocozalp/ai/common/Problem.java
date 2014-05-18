@@ -13,10 +13,12 @@ public class Problem {
 
     private ArrayList<State> states;
     private Hashtable<State, Hashtable<Action, ArrayList<State>>> transitionTable;
+    private ArrayList<State> goalStates;
 
     public Problem() {
         this.states = new ArrayList<State>();
         this.transitionTable = new Hashtable<State, Hashtable<Action, ArrayList<State>>>();
+        this.goalStates = new ArrayList<State>();
     }
 
     public void addState(State state) {
@@ -62,5 +64,15 @@ public class Problem {
         }
 
         return new ArrayList<State>();
+    }
+
+    public void addGoalState(State state) {
+        if(!goalStates.contains(state)) {
+            goalStates.add(state);
+        }
+    }
+
+    public boolean isGoalState(State state) {
+        return goalStates.contains(state);
     }
 }

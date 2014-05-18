@@ -15,7 +15,7 @@ public class VacuumWorldExample {
 
         AndOrSearchTree tree = new AndOrSearchTree(problem);
 
-        ArrayList<Action> steps = tree.search(new State(1), new State(8));
+        ArrayList<Action> steps = tree.search(new State(1));
 
         if(steps != null) {
             for(Action action : steps) System.out.println(action.getName());

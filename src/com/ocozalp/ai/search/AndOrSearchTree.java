@@ -18,11 +18,11 @@ public class AndOrSearchTree {
         this.problem = problem;
     }
 
-    public ArrayList<Action> search(State startState, State goalState) {
+    public ArrayList<Action> search(State startState) {
         ArrayList<Action> resultActions = new ArrayList<Action>();
         Stack<Action> actionStack = new Stack<Action>();
 
-        boolean result = orSearch(startState, goalState, actionStack, new Stack<State>());
+        boolean result = orSearch(startState, actionStack, new Stack<State>());
 
         if(!result) return null;
 
@@ -33,9 +33,8 @@ public class AndOrSearchTree {
         return resultActions;
     }
 
-    private boolean orSearch(State currentState, State goalState,
-                          Stack<Action> actionStack, Stack<State> stateStack) {
-        if(currentState.equals(goalState)) return true;
+    private boolean orSearch(State currentState, Stack<Action> actionStack, Stack<State> stateStack) {
+        if(problem.isGoalState(currentState)) return true;
         if(stateStack.contains(currentState)) return false;
 
         stateStack.push(currentState);
@@ -47,7 +46,7 @@ public class AndOrSearchTree {
             ArrayList<State> results = problem.getResultsOfAction(currentState, action);
 
             actionStack.push(action);
-            result |= andSearch(results, goalState, actionStack, stateStack);
+            result |= andSearch(results, actionStack, stateStack);
             if(result) break;
 
             actionStack.pop();
@@ -57,12 +56,12 @@ public class AndOrSearchTree {
         return result;
     }
 
-    private boolean andSearch(ArrayList<State> resultStates, State goalState,
-                              Stack<Action> actionStack, Stack<State> stateStack) {
+    private boolean andSearch(ArrayList<State> resultStates, Stack<Action> actionStack,
+                              Stack<State> stateStack) {
 
         boolean result = true;
         for(State nextState : resultStates) {
-            result &= orSearch(nextState, goalState, actionStack, stateStack);
+            result &= orSearch(nextState, actionStack, stateStack);
             if(!result) break;
         }
         return result;
